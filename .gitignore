@@ -1,0 +1,4 @@
+
+nfp-backend/.env
+nfp-backend/alembic.ini
+nfp-frontend/node_modules
