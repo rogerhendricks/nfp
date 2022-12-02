@@ -22,6 +22,17 @@ devices = Table(
     Column("mri", Boolean),
 )
 
+leads = Table(
+    "leads",
+    metadata,
+    Column("id", Integer, primary_key=True),
+    Column("manufacturer", String),
+    Column("model", String),
+    Column("chamber", String),
+    Column("hazard", Boolean),
+    Column("mri", Boolean),
+)
+
 users = Table(
     "users",
     metadata,
@@ -30,6 +41,21 @@ users = Table(
     Column("hashed_password", String)
 )
 
+doctors = Table(
+    "doctors",
+    metadata,
+    Column("id", Integer, primary_key=True),
+    Column("title", String),
+    Column("last_name", String),
+    Column("first_name", String),
+    Column("phone", String),
+    Column("email", String),
+    Column("street", String),
+    Column("city", String),
+    Column("state", String),
+    Column("postal", String),
+    Column("site_id", String),
+)
 
 engine = create_engine(
     DATABASE_URL
