@@ -60,6 +60,7 @@ class Lead(BaseModel):
     class Config:
         orm_mode = True
 
+
 class DoctorIn(BaseModel):
     id: int
     title: str
@@ -72,6 +73,9 @@ class DoctorIn(BaseModel):
     state: str 
     postal: str
     site_id: str
+
+    class Config:
+        orm_mode = True
 
 
 class Doctor(BaseModel):
@@ -86,3 +90,6 @@ class Doctor(BaseModel):
     state: str 
     postal: str
     site_id: str
+    
+    class Config:
+        orm_mode = True

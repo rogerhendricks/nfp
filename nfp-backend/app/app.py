@@ -8,13 +8,14 @@ from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.sql import text
 
-from .routers import LeadRoutes, DeviceRoutes
-from .database import database, devices, leads
-from .models import Device, DeviceIn, Lead, LeadIn
+from .routers import LeadRoutes, DeviceRoutes, DoctorRoutes
+from .database import database
+
 
 
 app = FastAPI()
 
+app.include_router(DoctorRoutes.router)
 app.include_router(DeviceRoutes.router)
 app.include_router(LeadRoutes.router)
 

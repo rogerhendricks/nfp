@@ -1,55 +1,66 @@
 from fastapi import Depends, APIRouter, HTTPException, status
 from typing import List
-
+from sqlalchemy.sql import text
 
 from ..database import users, doctors, database
 from ..models import Doctor, DoctorIn
 
 router = APIRouter(
-    prefix="/devices"
+    prefix="/doctors"
 )
 
-@router.get("/", response_model=List[Device])
-async def read_devices():
-    query = devices.select()
+@router.get("/", response_model=List[Doctor])
+async def read_doctors():
+    query = doctors.select()
     return await database.fetch_all(query)
 
 
-@router.post("/create", response_model=Device)
-async def create_device(device: DeviceIn):
-    query = devices.insert().values(
-        manufacturer=device.manufacturer, 
-        model=device.model, 
-        dev_type=device.dev_type, 
-        hazard=device.hazard,
-        mri=device.mri,
+@router.post("/create", response_model=Doctor)
+async def create_doctor(doctor: DoctorIn):
+    query = doctors.insert().values(
+        id=doctor.id,
+        title=doctor.title, 
+        last_name=doctor.last_name, 
+        first_name=doctor.first_name, 
+        phone=doctor.phone,
+        email=doctor.email,
+        street=doctor.street,
+        city=doctor.city,
+        state=doctor.state,
+        postal=doctor.postal,
+        site_id=doctor.site_id,
         )
     last_record_id = await database.execute(query)
-    return {**device.dict(), "id": last_record_id}
+    return {**doctor.dict(), "id": last_record_id}
 
 
 @router.get("/{id}")
-async def read_device(id: int):
-    query = devices.select().where(devices.c.id == text(str(id)))
+async def read_doctor(id: int):
+    query = doctors.select().where(doctors.c.id == text(str(id)))
     return await database.fetch_one(query)
 
 
 @router.delete("/{id}")
-async def delete_device(id: int, device: Device):
-    value =  devices.delete().where(devices.c.id == text(str(id)))
+async def delete_doctor(id: int, doctor: Doctor):
+    value =  doctors.delete().where(doctors.c.id == text(str(id)))
     return await database.execute(value)
 
 
-@router.patch("/{id}", response_model=Device)
-async def update_device(id:int, device: DeviceIn):
-    print(device)
-    query = devices.update().values(
-        id=device.id,
-        manufacturer=device.manufacturer, 
-        model=device.model, 
-        dev_type=device.dev_type, 
-        hazard=device.hazard,
-        mri=device.mri,
-        ).where(devices.c.id == text(str(id)))
+@router.patch("/{id}", response_model=Doctor)
+async def update_doctor(id:int, doctor: DoctorIn):
+    print(doctor)
+    query = doctors.update().values(
+        id=doctor.id,
+        title=doctor.title, 
+        last_name=doctor.last_name, 
+        first_name=doctor.first_name, 
+        phone=doctor.phone,
+        email=doctor.email,
+        street=doctor.street,
+        city=doctor.city,
+        state=doctor.state,
+        postal=doctor.postal,
+        site_id=doctor.site_id,
+        ).where(doctors.c.id == text(str(id)))
     await database.execute(query)
-    return  device
+    return  doctors

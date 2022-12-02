@@ -1,6 +1,6 @@
 from fastapi import Depends, APIRouter, HTTPException, status
 from typing import List
-
+from sqlalchemy.sql import text
 
 from ..database import users, devices, database
 from ..models import Device, DeviceIn
